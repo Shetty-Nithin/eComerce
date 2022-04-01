@@ -1,30 +1,54 @@
 const express = require('express');
 const app = express();
-const Sequelize = require('sequelize');
-
-const dbConfig = require('./config/db.config.json');
-const env = "development";
-const dbSetting = dbConfig[env];
-
 const serverConfig = require('./config/server.config');
+const db = require('./models/index.js');
 
-const sequelize = new Sequelize(
-    dbSetting.database,
-    dbSetting.username,
-    dbSetting.password,
-    dbSetting.dialectInformation
-);
+//----------------------------------category------------------------
+var categoriesData = [
+    {
+        name : "Electronics",
+        desciption : "electronics are available here"
+    },
+    {
+        name : "vegetables",
+        desciption : "this is vegetables"
+    },
+];
 
-app.get('/', (req, res) => {
-    res.send('welcome to ecomerce app');
-})
+db.category.bulkCreate(categoriesData).then(() => {
+    console.log('catergory table is initialized with catergory');
+}).catch((err) => {
+    console.log('error while initializing the catergory data table');
+});
 
-app.listen(serverConfig.PORT, async (req, res) => {
-      console.log('my server is working');
-      try{
-          await sequelize.authenticate();
-          console.log('connected to db');
-      }catch(error){
-        console.log('unable to connect to db');
-      }
-})
+//-----------------------------Product-------------------------------------
+var productData = [
+    {
+        name : "phones",
+        desciption : "smart phones",
+    },
+    {
+        name : "clothes",
+        desciption : "brand new clothes",
+    },
+    {
+        name : "shoes",
+        desciption : "sports shoes",
+    }
+];
+
+db.product.bulkCreate(productData).then(() => {
+    console.log('products table is initialized with produts');
+}).catch((err) => {
+    console.log('error while initializing the product data table');
+});
+
+//-------------------------------------------------------------------------
+
+db.sequelize.sync({force:true}).then(() => {
+    console.log('models/tables are dropped and created');
+});
+
+app.listen(serverConfig.PORT, (req, res) => {
+    console.log('my server is working');
+});

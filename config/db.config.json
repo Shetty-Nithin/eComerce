@@ -1,6 +1,6 @@
 {
     "development" :{
-        "database" : "",
+        "database" : "eComerce",
         "username" : "root",
         "password" : "notmysql",
         "dialectInformation" : {
