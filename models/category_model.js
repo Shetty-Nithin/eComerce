@@ -1,7 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    // const { sequelize, Sequelize } = require("./index.js");
         
-    const catergory = sequelize.define('catergory',{
+    const category = sequelize.define('category',{
         id : {
             type : Sequelize.INTEGER,
             primaryKey : true,
@@ -19,5 +18,5 @@ module.exports = (sequelize, Sequelize) => {
         tableName : "categories",
     });
     
-    return catergory;
+    return category;
 }

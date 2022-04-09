@@ -1,7 +1,12 @@
-const catergoryController = require('../controllers/category_controller/')
-const app = require('../app');
-post('/ecommerce/api/v1/categories', catergoryController.create);
-put('/ecommerce/api/v1/categories/:id', catergoryController.update);
-delete('/ecommerce/api/v1/categories/:id', catergoryController.deleteCateg);
-get('/ecommerce/api/v1/categories/:id', catergoryController.findCateg);
-get('/ecommerce/api/v1/categories', catergoryController.findAllCateg);
+const catergoryController = require('../controllers/category_controller');
+const {requestValidator, authJwt} = require('../middlewares/index');
+
+module.exports = (app) => {
+
+    app.post('/ecommerce/api/v1/categories', [requestValidator.validateCategoryRequest, authJwt.verifyToken, authJwt.isAdmin], catergoryController.create);
+    app.put('/ecommerce/api/v1/categories/:id', [requestValidator.validateCategoryRequest, authJwt.verifyToken, authJwt.isAdmin], catergoryController.update);
+    app.delete('/ecommerce/api/v1/categories/:id', [authJwt.verifyToken, authJwt.isAdmin], catergoryController.deleteCateg);
+    app.get('/ecommerce/api/v1/categories/:id', catergoryController.findCateg);
+    app.get('/ecommerce/api/v1/categories', catergoryController.findAllCateg);
+    
+}

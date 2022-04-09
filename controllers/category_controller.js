@@ -1,23 +1,14 @@
-const { response } = require('express');
 const db = require('../models/index.js');
 const Category = db.category;
 
 exports.create = (req, res) => {
-    if(!req.body.name){
-        res.status(400).send({
-            message : "Name cannot be empty."
-        });
-        return;
-    }
-
     const createCategory = {
         name : req.body.name,
         description : req.body.description,
     }
 
     Category.create(createCategory).then(response => {
-        console.log(`${response} has been stored in the database.`);
-        res.status(201).send(`${response} has been saved to the database.`);
+        res.status(201).send(response);
     }).catch(err => {
         res.status(500).send({
             message : "Its not you, its us."
@@ -26,25 +17,18 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    if(!req.body.name){
-        res.status(400).send({
-            message : "Name cannot be empty."
-        });
-        return;
-    }
-    
     const updateCategory = {
         name : req.body.name,
         description : req.body.description
     }
 
-    const categoryId = req.parmas.id;
+    const categoryId = req.params.id;
     Category.update(updateCategory, {
         where : {
             id : categoryId
         }
     }).then(response => {
-        res.status(200).send('Category has been updated successfully');
+        res.status(200).send(response);
     }).catch(err => {
         res.status(500).send({
             message : "Its not you, its us."
@@ -53,11 +37,11 @@ exports.update = (req, res) => {
 }
 
 exports.deleteCateg = (req, res) => {
-    const categoryId = req.parmas.id;
+    const categoryId = req.params.id;
     Category.destroy({
         where : {id : categoryId}
     }).then(response => {
-        res.status(200).send('Category has been deleted successfully');
+        res.sendStatus(200).send(response);
     }).catch(err => {
         res.status(500).send({
             message : "Its not you, its us."
@@ -66,9 +50,9 @@ exports.deleteCateg = (req, res) => {
 }
 
 exports.findCateg = (req, res) => {
-    const categoryId = req.parmas.id;
-    Categorya.findByPk(categoryId).then(response => {
-        res.status(200).send(`the data is ${response}`)
+    const categoryId = req.params.id;
+    Category.findByPk(categoryId).then(response => {
+        res.status(200).send(response);
     }).catch(err => {
         res.status(500).send({
             message : `${categoryId} is not present in the database`
@@ -77,7 +61,7 @@ exports.findCateg = (req, res) => {
 }
 
 exports.findAllCateg = (req, res) => {
-    let catergoryName = req.querry.name;
+    let catergoryName = req.query.name;
     let promise;
     if(catergoryName){
         promise = Category.findAll({
@@ -89,7 +73,7 @@ exports.findAllCateg = (req, res) => {
         promise = Category.findAll();
     }
 
-    Promise.then(response =>{
+    promise.then(response =>{
         res.status(200).send(response);
     }).catch(err => {
         res.status(500).send({
