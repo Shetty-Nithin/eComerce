@@ -7,6 +7,5 @@ module.exports = (app) => {
     app.put('/ecommerce/api/v1/categories/:id', [requestValidator.validateCategoryRequest, authJwt.verifyToken, authJwt.isAdmin], catergoryController.update);
     app.delete('/ecommerce/api/v1/categories/:id', [authJwt.verifyToken, authJwt.isAdmin], catergoryController.deleteCateg);
     app.get('/ecommerce/api/v1/categories/:id', catergoryController.findCateg);
-    app.get('/ecommerce/api/v1/categories', catergoryController.findAllCateg);
-    
+    app.get('/ecommerce/api/v1/categories', catergoryController.findAllCateg);   
 }

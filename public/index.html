@@ -9,7 +9,13 @@
 </head>
 <body>
     <div class="heading">
-        eCommerce
+        <div class="heading-left">eCommerce</div>
+        <div class="heading-right">
+            <button type="button" class="sign-up">Sign Up</button>
+            <button type="button" class="log-in">Log In</button>
+            <button type="button" class="log-out" onclick="togetToken()">Log Out</button>
+        </div>
+        
     </div>
     <div class="body">
         <div class="left">
@@ -39,9 +45,9 @@
         </div>
         <div class="right" id="right">
             <div class="right-operations">
-                <div><button type="button", class="createProd crud" id="createProd">Create</button></div>
-                <div><button type="button", class="updateProd crud" id="updateProd">Update</button></div>
-                <div><button type="button", class="deleteProd crud" id="deleteProd">Delete</button></div>
+                <div class="crudButnBckgnd"><button type="button", class="createProd crud" id="createProd">Create</button></div>
+                <div class="crudButnBckgnd"><button type="button", class="updateProd crud" id="updateProd">Update</button></div>
+                <div class="crudButnBckgnd"><button type="button", class="deleteProd crud" id="deleteProd">Delete</button></div>
             </div>
             <!-- Appending products -->
         </div>

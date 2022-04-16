@@ -18,6 +18,7 @@ db.category = require('./category_model')(sequelize, Sequelize);
 db.product = require('./product_model')(sequelize, Sequelize);
 db.user = require('./user_model')(sequelize, Sequelize);
 db.role = require('./role_model')(sequelize, Sequelize);
+db.cart = require('./cart_model')(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user,{
     through: "user_roles",
@@ -31,5 +32,18 @@ db.user.belongsToMany(db.role, {
 });
 
 db.ROLES = ["customer", "admin"];
+
+db.user.hasMany(db.cart);
+db.product.belongsToMany(db.cart, {
+    through : "cart_products",
+    foreignKey : "productId",
+    otherKey : "cartId"
+});
+db.cart.belongsToMany(db.product, {
+    through : "cart_products",
+    foreignKey : "cartId",
+    otherKey : "productId"
+})
+
 
 module.exports = db;

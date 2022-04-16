@@ -22,10 +22,11 @@ exports.update = (req, res) => {
         description : req.body.description
     }
 
-    const categoryId = req.params.id;
+    // const categoryId = req.params.id;
     Category.update(updateCategory, {
         where : {
-            id : categoryId
+            // id : categoryId
+            id : req.params.id
         }
     }).then(response => {
         res.status(200).send(response);
@@ -37,9 +38,10 @@ exports.update = (req, res) => {
 }
 
 exports.deleteCateg = (req, res) => {
-    const categoryId = req.params.id;
+    // const categoryId = req.params.id;
     Category.destroy({
-        where : {id : categoryId}
+        // where : {id : categoryId}
+        where : {id : req.params.id}
     }).then(response => {
         res.sendStatus(200).send(response);
     }).catch(err => {
@@ -50,23 +52,23 @@ exports.deleteCateg = (req, res) => {
 }
 
 exports.findCateg = (req, res) => {
-    const categoryId = req.params.id;
-    Category.findByPk(categoryId).then(response => {
+    // const categoryId = req.params.id;
+    Category.findByPk(req.params.id).then(response => {
         res.status(200).send(response);
     }).catch(err => {
         res.status(500).send({
-            message : `${categoryId} is not present in the database`
+            message : `${req.params.id} is not present in the database`
         })
     })
 }
 
 exports.findAllCateg = (req, res) => {
-    let catergoryName = req.query.name;
+    // let catergoryName = req.query.name;
     let promise;
-    if(catergoryName){
+    if(req.query.name){
         promise = Category.findAll({
             where : {
-                name : catergoryName
+                name : req.query.name
             }
         })
     }else{

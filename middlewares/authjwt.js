@@ -9,14 +9,14 @@ verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
     if(!token){
         return res.status(403).send({
-            message : "token not provided."
+            message : "token not provided. Login first.",
         });
     }
 
     jwt.verify(token, config.secretKey, (err, decoded) => {
         if(err){
             return res.status(401).send({
-                message : 'Unauthorised'
+                message : 'Unauthorised. Password is not matching.'
             });
         }
 
@@ -25,7 +25,7 @@ verifyToken = (req, res, next) => {
     })
 }
 
-isAdmin = (req, res, next) => {
+isAdmin = (req, res, next) => { 
     user.findByPk(req.userId).then(user => {
         user.getRoles().then(roles => {
             for(let i=0; i<roles.length; i++){

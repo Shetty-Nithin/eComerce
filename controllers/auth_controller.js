@@ -10,13 +10,11 @@ const Role = db.role;
 const Op = db.Sequelize.Op;  
 
 exports.signup = (req, res) => {
-    console.log('creating the user here')
     User.create({
         username : req.body.username,
         email : req.body.email,
         password : bcrypt.hashSync(req.body.password, 10)
     }).then(user => {
-        console.log('deciding here')
         if(req.body.roles){
             Role.findAll({
                 where : {
@@ -32,11 +30,10 @@ exports.signup = (req, res) => {
                 })
             })
         }else{
-            user.setRoles(db.ROLES[0]).then(response => {
-                console.log('enterign the default statement')
+            user.setRoles([1]).then(() => {
                 res.status(201).send({
                     message : 'user registered successfully with default role'
-                })
+                });
             })
         }
     }).catch(err => {
@@ -47,8 +44,8 @@ exports.signup = (req, res) => {
 }
 
 
-//sign in
-exports.signin = (req, res) => {
+//log in
+exports.login = (req, res) => {
     User.findOne({
         where : {
             username : req.body.username
@@ -67,7 +64,7 @@ exports.signin = (req, res) => {
             })
         }
         
-        var token  = jwt.sign({id : user.id}, config.secretKey, {expiresIn : 60})
+        var token  = jwt.sign({id : user.id}, config.secretKey, {expiresIn : 86400})//24 hours
 
         var authorities = [];
         user.getRoles().then(roles => {
@@ -86,5 +83,13 @@ exports.signin = (req, res) => {
         return res.status(500).send({
             message : err.message
         });
+    })
+}
+
+//log out
+exports.logout = (req, res, next) => {
+    token = "";
+    res.status(200).send({
+        message : "logged out successfully"
     })
 }

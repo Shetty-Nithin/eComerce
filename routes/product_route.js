@@ -11,5 +11,4 @@ module.exports = (app) => {
     app.get('/ecommerce/api/v1/products', productController.findAllProd);
     
     app.get('/ecommerce/api/v1/categories/:categoryId/products', [requestValidator.validateCategoryInRequestParams], productController.getProductsUnderCatergory);
-
 }

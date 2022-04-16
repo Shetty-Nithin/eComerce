@@ -28,6 +28,8 @@ const checkDuplicateUserNameOrEmail = (req, res, next) => {
     })
 }
 
+// this will check, whether the role is assigned from the defined array or not.
+//["customer", "admin"]
 const checkRolesExists = (req, res, next) => {
     if(req.body.roles){
         for(let i=0; i<req.body.roles.length; i++){
@@ -38,8 +40,8 @@ const checkRolesExists = (req, res, next) => {
                 return;
             }
         }
-        next();
     }
+    next();
 }
 
 const verifySignUp = { checkDuplicateUserNameOrEmail, checkRolesExists }

@@ -1,4 +1,3 @@
-1. app is getting crashed after giving category id second time
-2. where do we need to pass the next().
-    * in success case or
-    * error case?
+1. getting error while creating signing up with role.
+2. What does "app.use()" in auth_route.js does?
+3. not able to create the cart

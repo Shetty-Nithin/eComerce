@@ -12,7 +12,6 @@ exports.create = (req, res) => {
     Product.create(createProduct).then(response => {
         res.status(201).send(response);
     }).catch(err => {
-        console.log('error');
         res.status(500).send({
             message : "Its not you, its us."
         });
@@ -26,7 +25,7 @@ exports.update = (req, res) => {
         description : req.body.description,
         price : req.body.price
     }
-    // console.log('enterings the controller');
+
     const productId = req.params.id;
     Product.update(updateProduct, {
         where : {
