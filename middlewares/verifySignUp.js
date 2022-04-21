@@ -43,6 +43,20 @@ const checkRolesExists = (req, res, next) => {
     }
     next();
 }
+// const checkRolesExists = async (req, res, next) => {
+//     if(req.body.roles){
+//         for(let i=0; i< req.body.roles.length; i++){
+//             let roleIncluded = await db.ROLES.includes(req.body.roles[i]);
+//             if(!roleIncluded){
+//                 res.status(400).send({
+//                     message: "Roles desn't exists" + req.body.roles[i]
+//                 })
+//                 return;
+//             }
+//         }
+//     }
+//     next();
+// }
 
 const verifySignUp = { checkDuplicateUserNameOrEmail, checkRolesExists }
 module.exports = verifySignUp;

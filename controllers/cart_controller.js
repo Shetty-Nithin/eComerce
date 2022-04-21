@@ -35,7 +35,7 @@ exports.update = (req, res) => {
             cart.setProducts(productList).then(() => {
                 let selectedProducts = [];
                 let totalCost = 0;
-                cart.getProducts.then(products => {
+                cart.getProducts().then(products => {
                     for(let i=0; i<products.length; i++){
                         totalCost = totalCost + products[i].price
                         selectedProducts.push({
@@ -44,13 +44,43 @@ exports.update = (req, res) => {
                             cost : products[i].price
                         })
                     }
+                    res.status(200).send({
+                        id : cart.id,
+                        selectedProducts : selectedProducts,
+                        cost : totalCost
+                    })
                 })
 
-                res.status(200).send({
-                    id : cart.id,
-                    selectedProducts : selectedProducts,
-                    cost : totalCost
+            })
+        })
+    })
+}
+
+exports.getCart = (req, res) => {
+    const cartId = req.params.id;
+
+    db.cart.findByPk(cartId).then(cart => {
+        if(!cart){
+            res.status(400).send({
+                message : "cart doest not exists."
+            });
+            return;
+        }
+        let selectedProducts = [];
+        let totalCost = 0;
+        cart.getProducts().then(products => {
+            for(let i=0; i<products.length; i++){
+                totalCost = totalCost + products[i].price
+                selectedProducts.push({
+                    id : products[i].id,
+                    name : products[i].name,
+                    cost : products[i].price
                 })
+            }
+            res.status(200).send({
+                id : cart.id,
+                selectedProducts : selectedProducts,
+                cost : totalCost
             })
         })
     })

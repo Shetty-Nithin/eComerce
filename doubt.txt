@@ -1,3 +1,1 @@
-1. getting error while creating signing up with role.
-2. What does "app.use()" in auth_route.js does?
-3. not able to create the cart
+
